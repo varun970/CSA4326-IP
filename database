@@ -1,0 +1,39 @@
+<?php
+// Database connection parameters
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$database = "your_database";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get username and password from the form
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // SQL query to check if the username and password match
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // User authenticated successfully
+        echo "Login successful!";
+        // Redirect to a dashboard or another page
+        // header("Location: dashboard.php");
+    } else {
+        // Invalid credentials
+        echo "Invalid username or password";
+    }
+}
+
+// Close connection
+$conn->close();
+?>
